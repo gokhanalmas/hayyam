@@ -1076,41 +1076,45 @@ class ControllerCatalogProduct extends Controller {
 		$this->data['product_options'] = array();
 			
 		foreach ($product_options as $product_option) {
-			if ($product_option['type'] == 'select' || $product_option['type'] == 'radio' || $product_option['type'] == 'checkbox' || $product_option['type'] == 'image') {
-				$product_option_value_data = array();
-				
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-					$product_option_value_data[] = array(
-						'product_option_value_id' => $product_option_value['product_option_value_id'],
-						'option_value_id'         => $product_option_value['option_value_id'],
-						'quantity'                => $product_option_value['quantity'],
-						'subtract'                => $product_option_value['subtract'],
-						'price'                   => $product_option_value['price'],
-						'price_prefix'            => $product_option_value['price_prefix'],
-						'points'                  => $product_option_value['points'],
-						'points_prefix'           => $product_option_value['points_prefix'],						
-						'weight'                  => $product_option_value['weight'],
-						'weight_prefix'           => $product_option_value['weight_prefix']	
-					);
+			$option_info = $this->model_catalog_option->getOption($product_option['option_id']);
+			
+			if ($option_info) {
+				if ($option_info['type'] == 'select' || $option_info['type'] == 'radio' || $option_info['type'] == 'checkbox' || $option_info['type'] == 'image') {
+					$product_option_value_data = array();
+					
+					foreach ($product_option['product_option_value'] as $product_option_value) {
+						$product_option_value_data[] = array(
+							'product_option_value_id' => $product_option_value['product_option_value_id'],
+							'option_value_id'         => $product_option_value['option_value_id'],
+							'quantity'                => $product_option_value['quantity'],
+							'subtract'                => $product_option_value['subtract'],
+							'price'                   => $product_option_value['price'],
+							'price_prefix'            => $product_option_value['price_prefix'],
+							'points'                  => $product_option_value['points'],
+							'points_prefix'           => $product_option_value['points_prefix'],						
+							'weight'                  => $product_option_value['weight'],
+							'weight_prefix'           => $product_option_value['weight_prefix']	
+						);
+					}
+					
+					$this->data['product_options'][] = array(
+						'product_option_id'    => $product_option['product_option_id'],
+						'product_option_value' => $product_option_value_data,
+						'option_id'            => $product_option['option_id'],
+						'name'                 => $option_info['name'],
+						'type'                 => $option_info['type'],
+						'required'             => $product_option['required']
+					);				
+				} else {
+					$this->data['product_options'][] = array(
+						'product_option_id' => $product_option['product_option_id'],
+						'option_id'         => $product_option['option_id'],
+						'name'              => $option_info['name'],
+						'type'              => $option_info['type'],
+						'option_value'      => $product_option['option_value'],
+						'required'          => $product_option['required']
+					);				
 				}
-				
-				$this->data['product_options'][] = array(
-					'product_option_id'    => $product_option['product_option_id'],
-					'product_option_value' => $product_option_value_data,
-					'option_id'            => $product_option['option_id'],
-					'name'                 => $product_option['name'],
-					'type'                 => $product_option['type'],
-					'required'             => $product_option['required']
-				);				
-			} else {
-				$this->data['product_options'][] = array(
-					'product_option_id' => $product_option['product_option_id'],
-					'option_id'         => $product_option['option_id'],
-					'name'              => $product_option['name'],
-					'type'              => $product_option['type'],
-					'option_value'      => $product_option['option_value'],
-					'required'          => $product_option['required']
-				);				
 			}
 		}
 		
@@ -1396,5 +1400,81 @@ class ControllerCatalogProduct extends Controller {
 
 		$this->response->setOutput(json_encode($json));
 	}
+	public function saveSkin() {
+			
+		 $this->load->model('setting/setting');
+			
+			// && $this->validate()		
+			
+			//$this->request->post('schema')
+				if (($this->request->server['REQUEST_METHOD'] == 'POST')) {	
+				
+		 $color_schema = $_POST['schema'];
+ 
+    		 $issaveoption = $this->config->get('color_schema');
+
+        if (!$issaveoption) {
+
+            $options_jsonn = json_encode(array('0' => $color_schema));
+
+//print_r($options_jsonn);
+ 			$this->model_setting_setting->editSetting('color_schema',array('color_schema'=>$options_jsonn ));
+ 
+        }else {
+
+            $old_json_data = json_decode($issaveoption, true);
+
+            // array_push($old_json_data, $color_schema);
+            $old_json_data[] = $color_schema;
+		
+				$this->model_setting_setting->editSetting('color_schema',array('color_schema'=>json_encode($old_json_data)) );		
+		
+        }
+		    } 
+		}
+		public function LoadSkin() {
+			
+			  $issaveoption = $this->config->get('color_schema');
+
+            if ($issaveoption) {
+
+                    $color_schema = json_decode($issaveoption, true);
+                   // print_r($color_schema );
+                          foreach ($color_schema as $key => $option):
+
+                              if($key == $_POST['schema_id'] )  :
+ 
+                              echo json_encode($option) ;
+                                  
+                              endif;
+                              
+                          endforeach;
+            }  
+		}
+		public function deleteSkin() {
+			
+			  $issaveoption =  $this->config->get('color_schema');
+         		
+		 $this->load->model('setting/setting');
+             
+            if ($issaveoption) {
+
+                    $color_schema = json_decode($issaveoption, true);
+
+                          foreach ($color_schema as $key => $option):
+                              
+                              if($key == $_POST['schema_id'] )  :
+                                 
+                                  unset($color_schema[$key]);
+                              
+                                 $this->model_setting_setting->editSetting('color_schema',array('color_schema'=>json_encode($color_schema)) );		
+								 
+                                       die(1); 
+                              endif;
+                              
+                           endforeach;      
+            }
+             die(1); 
+		}
 }
 ?>

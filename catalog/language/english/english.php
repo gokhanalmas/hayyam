@@ -1,4 +1,24 @@
 <?php
+// OXY Theme
+$_['text_sale']                  = 'Sale';
+$_['text_more']                  = 'More';
+$_['text_share']                 = 'Share';
+$_['text_shop_now']              = 'Shop Now!';
+$_['text_next_product']          = 'Next';
+$_['text_previous_product']      = 'Previous';
+$_['text_percent_saved']         = 'Save:';
+$_['text_product_viewed']        = 'Product viewed:';
+$_['text_product_friend']        = 'Send to a friend';
+$_['text_menu_categories']       = 'Categories';
+$_['text_menu_brands']           = 'Brands';
+$_['text_menu_contact_us']       = 'Contact us';
+$_['text_menu_contacts']         = 'Contacts';
+$_['text_menu_contact_address']  = 'Address';
+$_['text_menu_contact_hours']    = 'Office Opening Hours';
+$_['text_menu_contact_form']     = 'Contact Form';
+$_['text_menu_contact_map']      = 'Our Location';
+$_['text_menu_menu']             = 'Menu';
+
 // Locale
 $_['code']                  = 'en';
 $_['direction']             = 'ltr';

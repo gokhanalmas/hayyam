@@ -16,6 +16,7 @@ class ControllerModuleCarousel extends Controller {
 
 		$this->data['limit'] = $setting['limit'];
 		$this->data['scroll'] = $setting['scroll'];
+		$this->data['width'] = $setting['width'];
 
 		$this->data['banners'] = array();
 

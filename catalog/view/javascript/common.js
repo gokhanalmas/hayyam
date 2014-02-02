@@ -27,7 +27,7 @@ $(document).ready(function() {
 	});
 	
 	/* Ajax Cart */
-	$('#cart > .heading a').live('click', function() {
+	$('#cart > .heading a').live('mouseover', function() {
 		$('#cart').addClass('active');
 		
 		$('#cart').load('index.php?route=module/cart #cart > *');
@@ -126,13 +126,16 @@ function addToCart(product_id, quantity) {
 			}
 			
 			if (json['success']) {
-				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/oxy/image/close.png" alt="" class="close" /></div>');
 				
 				$('.success').fadeIn('slow');
 				
-				$('#cart-total').html(json['total']);
+				setTimeout(function() {
+					$('.success').delay(500).fadeOut(1000);
+				}, 7000);
 				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+				$('#cart-total').html(json['total']);
+
 			}	
 		}
 	});
@@ -147,13 +150,16 @@ function addToWishList(product_id) {
 			$('.success, .warning, .attention, .information').remove();
 						
 			if (json['success']) {
-				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/oxy/image/close.png" alt="" class="close" /></div>');
 				
 				$('.success').fadeIn('slow');
 				
-				$('#wishlist-total').html(json['total']);
+				setTimeout(function() {
+					$('.success').delay(500).fadeOut(1000);
+				}, 7000);
 				
-				$('html, body').animate({ scrollTop: 0 }, 'slow');
+				$('#wishlist-total').html(json['total']);
+
 			}	
 		}
 	});
@@ -169,13 +175,16 @@ function addToCompare(product_id) {
 			$('.success, .warning, .attention, .information').remove();
 						
 			if (json['success']) {
-				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
+				$('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/oxy/image/close.png" alt="" class="close" /></div>');
 				
 				$('.success').fadeIn('slow');
 				
-				$('#compare-total').html(json['total']);
+				setTimeout(function() {
+					$('.success').delay(500).fadeOut(1000);
+				}, 7000);
 				
-				$('html, body').animate({ scrollTop: 0 }, 'slow'); 
+				$('#compare-total').html(json['total']);
+
 			}	
 		}
 	});

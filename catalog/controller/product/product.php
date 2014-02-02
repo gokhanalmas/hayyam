@@ -164,6 +164,8 @@ class ControllerProductProduct extends Controller {
 		
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 		
+		$this->data['product_info'] = $product_info;
+		
 		if ($product_info) {
 			$url = '';
 			
@@ -229,6 +231,25 @@ class ControllerProductProduct extends Controller {
 			$this->document->addScript('catalog/view/javascript/jquery/colorbox/jquery.colorbox-min.js');
 			$this->document->addStyle('catalog/view/javascript/jquery/colorbox/colorbox.css');
 			
+			$NextProd = $this->model_catalog_product->getProduct($product_id+1);
+			$PrevProd = $this->model_catalog_product->getProduct($product_id-1);
+
+			if($NextProd) {
+				$this->data['next_prod_url'] = $this->url->link('product/product', 'product_id=' . $NextProd['product_id']);
+				$this->data['next_prod_name'] = $NextProd['name'];
+			} else {
+				$this->data['next_prod_url'] = '';
+				$this->data['next_prod_name'] = '';
+			}
+
+			if($PrevProd) {
+				$this->data['prev_prod_url'] = $this->url->link('product/product', 'product_id=' . $PrevProd['product_id']);
+				$this->data['prev_prod_name'] = $PrevProd['name'];
+			} else {
+				$this->data['prev_prod_url'] = '';
+				$this->data['prev_prod_name'] = '';
+			}
+			
 			$this->data['heading_title'] = $product_info['name'];
 			
 			$this->data['text_select'] = $this->language->get('text_select');
@@ -250,6 +271,26 @@ class ControllerProductProduct extends Controller {
 			$this->data['text_share'] = $this->language->get('text_share');
 			$this->data['text_wait'] = $this->language->get('text_wait');
 			$this->data['text_tags'] = $this->language->get('text_tags');
+			$this->data['text_sale'] = $this->language->get('text_sale');	
+			$this->data['text_percent_saved'] = $this->language->get('text_percent_saved');
+			$this->data['text_next_product'] = $this->language->get('text_next_product');	
+		    $this->data['text_previous_product'] = $this->language->get('text_previous_product');	
+			$this->data['text_product_viewed'] = $this->language->get('text_product_viewed');
+			$this->data['text_product_friend'] = $this->language->get('text_product_friend');
+			
+			$this->data['oxy_product_custom_content'] = $this->config->get('oxy_product_custom_content' . $this->config->get('config_language_id'));	
+			$this->data['oxy_product_fb1_title'] = $this->config->get('oxy_product_fb1_title' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_fb1_subtitle'] = $this->config->get('oxy_product_fb1_subtitle' . $this->config->get('config_language_id'));
+		    $this->data['oxy_product_fb2_title'] = $this->config->get('oxy_product_fb2_title' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_fb2_subtitle'] = $this->config->get('oxy_product_fb2_subtitle' . $this->config->get('config_language_id'));
+		    $this->data['oxy_product_fb3_title'] = $this->config->get('oxy_product_fb3_title' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_fb3_subtitle'] = $this->config->get('oxy_product_fb3_subtitle' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_custom_tab_1_title'] = $this->config->get('oxy_product_custom_tab_1_title' . $this->config->get('config_language_id'));		
+			$this->data['oxy_product_custom_tab_1_content'] = $this->config->get('oxy_product_custom_tab_1_content' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_custom_tab_2_title'] = $this->config->get('oxy_product_custom_tab_2_title' . $this->config->get('config_language_id'));		
+			$this->data['oxy_product_custom_tab_2_content'] = $this->config->get('oxy_product_custom_tab_2_content' . $this->config->get('config_language_id'));
+			$this->data['oxy_product_custom_tab_3_title'] = $this->config->get('oxy_product_custom_tab_3_title' . $this->config->get('config_language_id'));		
+			$this->data['oxy_product_custom_tab_3_content'] = $this->config->get('oxy_product_custom_tab_3_content' . $this->config->get('config_language_id'));	
 			
 			$this->data['entry_name'] = $this->language->get('entry_name');
 			$this->data['entry_review'] = $this->language->get('entry_review');
@@ -294,6 +335,14 @@ class ControllerProductProduct extends Controller {
 				$this->data['popup'] = '';
 			}
 			
+            $manufacturer_image = $this->model_catalog_manufacturer->getManufacturer($product_info['manufacturer_id']);
+         
+            if($manufacturer_image){
+               $this->data['manufacturers_img'] = $this->model_tool_image->resize($manufacturer_image['image'], 180, 70);
+            }else{
+               $this->data['manufacturers_img'] = false;
+            }				
+			
 			if ($product_info['image']) {
 				$this->data['thumb'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
 			} else {
@@ -319,6 +368,7 @@ class ControllerProductProduct extends Controller {
 						
 			if ((float)$product_info['special']) {
 				$this->data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')));
+			    $this->data['percent_savings'] = round((($product_info['price'] - $product_info['special']) / $product_info['price'] * 100));
 			} else {
 				$this->data['special'] = false;
 			}
@@ -334,8 +384,10 @@ class ControllerProductProduct extends Controller {
 			$this->data['discounts'] = array(); 
 			
 			foreach ($discounts as $discount) {
+				$percent_savings = round((($product_info['price'] - $discount['price']) / $product_info['price'] * 100));
 				$this->data['discounts'][] = array(
 					'quantity' => $discount['quantity'],
+					'percent_savings' => $percent_savings,
 					'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax')))
 				);
 			}
@@ -430,6 +482,7 @@ class ControllerProductProduct extends Controller {
 					'product_id' => $result['product_id'],
 					'thumb'   	 => $image,
 					'name'    	 => $result['name'],
+					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, 60) . '..',	
 					'price'   	 => $price,
 					'special' 	 => $special,
 					'rating'     => $rating,

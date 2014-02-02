@@ -5,6 +5,8 @@ class ControllerModuleLatest extends Controller {
 		
       	$this->data['heading_title'] = $this->language->get('heading_title');
 		
+		$this->data['text_sale'] = $this->language->get('text_sale');	
+		
 		$this->data['button_cart'] = $this->language->get('button_cart');
 				
 		$this->load->model('catalog/product');
@@ -28,6 +30,13 @@ class ControllerModuleLatest extends Controller {
 			} else {
 				$image = false;
 			}
+			
+		$swapimages = $this->model_catalog_product->getProductImages($result['product_id']);
+			if ($swapimages) {
+				$swapimage = $this->model_tool_image->resize($swapimages[0]['image'], $setting['image_width'], $setting['image_height']);
+			} else {
+				$swapimage = false;
+			}
 						
 			if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 				$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
@@ -50,6 +59,7 @@ class ControllerModuleLatest extends Controller {
 			$this->data['products'][] = array(
 				'product_id' => $result['product_id'],
 				'thumb'   	 => $image,
+				'thumb_swap' => $swapimage,
 				'name'    	 => $result['name'],
 				'price'   	 => $price,
 				'special' 	 => $special,

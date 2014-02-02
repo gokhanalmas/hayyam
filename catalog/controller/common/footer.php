@@ -18,6 +18,53 @@ class ControllerCommonFooter extends Controller {
 		$this->data['text_wishlist'] = $this->language->get('text_wishlist');
 		$this->data['text_newsletter'] = $this->language->get('text_newsletter');
 		
+		$this->data['oxy_fp_fb1_title'] = $this->config->get('oxy_fp_fb1_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb1_subtitle'] = $this->config->get('oxy_fp_fb1_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb1_content'] = $this->config->get('oxy_fp_fb1_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb2_title'] = $this->config->get('oxy_fp_fb2_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb2_subtitle'] = $this->config->get('oxy_fp_fb2_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb2_content'] = $this->config->get('oxy_fp_fb2_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb3_title'] = $this->config->get('oxy_fp_fb3_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb3_subtitle'] = $this->config->get('oxy_fp_fb3_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb3_content'] = $this->config->get('oxy_fp_fb3_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb4_title'] = $this->config->get('oxy_fp_fb4_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb4_subtitle'] = $this->config->get('oxy_fp_fb4_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_fp_fb4_content'] = $this->config->get('oxy_fp_fb4_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb1_title'] = $this->config->get('oxy_product_fb1_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb1_subtitle'] = $this->config->get('oxy_product_fb1_subtitle' . $this->config->get('config_language_id'));
+	   	$this->data['oxy_product_fb1_content'] = $this->config->get('oxy_product_fb1_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb2_title'] = $this->config->get('oxy_product_fb2_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb2_subtitle'] = $this->config->get('oxy_product_fb2_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb2_content'] = $this->config->get('oxy_product_fb2_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb3_title'] = $this->config->get('oxy_product_fb3_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb3_subtitle'] = $this->config->get('oxy_product_fb3_subtitle' . $this->config->get('config_language_id'));
+		$this->data['oxy_product_fb3_content'] = $this->config->get('oxy_product_fb3_content' . $this->config->get('config_language_id'));
+		
+		$this->data['oxy_custom_1_title'] = $this->config->get('oxy_custom_1_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_custom_1_content'] = $this->config->get('oxy_custom_1_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_custom_2_title'] = $this->config->get('oxy_custom_2_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_custom_2_content'] = $this->config->get('oxy_custom_2_content' . $this->config->get('config_language_id'));
+		$this->data['oxy_custom_3_content'] = $this->config->get('oxy_custom_3_content' . $this->config->get('config_language_id'));
+		
+		$this->data['oxy_follow_us_title'] = $this->config->get('oxy_follow_us_title' . $this->config->get('config_language_id'));
+		
+		$this->data['oxy_contacts_title'] = $this->config->get('oxy_contacts_title' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_mphone1'] = $this->config->get('oxy_contact_mphone1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_mphone2'] = $this->config->get('oxy_contact_mphone2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_sphone1'] = $this->config->get('oxy_contact_sphone1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_sphone2'] = $this->config->get('oxy_contact_sphone2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_fax1'] = $this->config->get('oxy_contact_fax1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_fax2'] = $this->config->get('oxy_contact_fax2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_email1'] = $this->config->get('oxy_contact_email1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_email2'] = $this->config->get('oxy_contact_email2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_skype1'] = $this->config->get('oxy_contact_skype1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_skype2'] = $this->config->get('oxy_contact_skype2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_location1'] = $this->config->get('oxy_contact_location1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_location2'] = $this->config->get('oxy_contact_location2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_hours'] = $this->config->get('oxy_contact_hours' . $this->config->get('config_language_id'));
+		
+		$this->data['oxy_powered_content'] = $this->config->get('oxy_powered_content' . $this->config->get('config_language_id'));
+		
 		$this->load->model('catalog/information');
 		
 		$this->data['informations'] = array();

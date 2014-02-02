@@ -4,6 +4,8 @@ class ControllerModuleBestSeller extends Controller {
 		$this->language->load('module/bestseller');
  
       	$this->data['heading_title'] = $this->language->get('heading_title');
+		
+		$this->data['text_sale'] = $this->language->get('text_sale');	
 				
 		$this->data['button_cart'] = $this->language->get('button_cart');
 		
@@ -20,6 +22,13 @@ class ControllerModuleBestSeller extends Controller {
 				$image = $this->model_tool_image->resize($result['image'], $setting['image_width'], $setting['image_height']);
 			} else {
 				$image = false;
+			}
+			
+		$swapimages = $this->model_catalog_product->getProductImages($result['product_id']);
+			if ($swapimages) {
+				$swapimage = $this->model_tool_image->resize($swapimages[0]['image'], $setting['image_width'], $setting['image_height']);
+			} else {
+				$swapimage = false;
 			}
 			
 			if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
@@ -43,6 +52,7 @@ class ControllerModuleBestSeller extends Controller {
 			$this->data['products'][] = array(
 				'product_id' => $result['product_id'],
 				'thumb'   	 => $image,
+				'thumb_swap' => $swapimage,
 				'name'    	 => $result['name'],
 				'price'   	 => $price,
 				'special' 	 => $special,

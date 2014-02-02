@@ -52,6 +52,24 @@ class ControllerInformationContact extends Controller {
     	$this->data['entry_email'] = $this->language->get('entry_email');
     	$this->data['entry_enquiry'] = $this->language->get('entry_enquiry');
 		$this->data['entry_captcha'] = $this->language->get('entry_captcha');
+		
+		$this->data['oxy_contact_map_ll'] = $this->config->get('oxy_contact_map_ll');
+		$this->data['oxy_contact_map_type'] = $this->config->get('oxy_contact_map_type');
+		$this->data['oxy_contact_mphone1'] = $this->config->get('oxy_contact_mphone1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_mphone1'] = $this->config->get('oxy_contact_mphone1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_mphone2'] = $this->config->get('oxy_contact_mphone2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_sphone1'] = $this->config->get('oxy_contact_sphone1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_sphone2'] = $this->config->get('oxy_contact_sphone2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_fax1'] = $this->config->get('oxy_contact_fax1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_fax2'] = $this->config->get('oxy_contact_fax2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_email1'] = $this->config->get('oxy_contact_email1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_email2'] = $this->config->get('oxy_contact_email2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_skype1'] = $this->config->get('oxy_contact_skype1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_skype2'] = $this->config->get('oxy_contact_skype2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_location1'] = $this->config->get('oxy_contact_location1' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_location2'] = $this->config->get('oxy_contact_location2' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_hours'] = $this->config->get('oxy_contact_hours' . $this->config->get('config_language_id'));
+		$this->data['oxy_contact_custom_content'] = $this->config->get('oxy_contact_custom_content' . $this->config->get('config_language_id'));
 
 		if (isset($this->error['name'])) {
     		$this->data['error_name'] = $this->error['name'];

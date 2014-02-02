@@ -149,6 +149,7 @@ class ControllerProductSearch extends Controller {
 		$this->data['text_grid'] = $this->language->get('text_grid');		
 		$this->data['text_sort'] = $this->language->get('text_sort');
 		$this->data['text_limit'] = $this->language->get('text_limit');
+		$this->data['text_sale'] = $this->language->get('text_sale');	
 		
 		$this->data['entry_search'] = $this->language->get('entry_search');
     	$this->data['entry_description'] = $this->language->get('entry_description');
@@ -460,5 +461,49 @@ class ControllerProductSearch extends Controller {
 				
 		$this->response->setOutput($this->render());
   	}
+	
+	public function ajax()
+				{
+					// Contains results
+					$data = array();
+					if( isset($this->request->get['keyword']) ) {
+						// Parse all keywords to lowercase
+						$keywords = strtolower( $this->request->get['keyword'] );
+						// Perform search only if we have some keywords
+						if( strlen($keywords) >= 2 ) {
+							$parts = explode( ' ', $keywords );
+							$add = '';
+							// Generating search
+							foreach( $parts as $part ) {
+								$add .= ' AND (LOWER(pd.name) LIKE "%' . $this->db->escape($part) . '%"';
+								$add .= ' OR LOWER(p.model) LIKE "%' . $this->db->escape($part) . '%")';
+							}
+							$add = substr( $add, 4 );
+							$sql  = 'SELECT pd.product_id, pd.name, p.model FROM ' . DB_PREFIX . 'product_description AS pd ';
+							$sql .= 'LEFT JOIN ' . DB_PREFIX . 'product AS p ON p.product_id = pd.product_id ';
+							$sql .= 'LEFT JOIN ' . DB_PREFIX . 'product_to_store AS p2s ON p2s.product_id = pd.product_id ';
+							$sql .= 'WHERE ' . $add . ' AND p.status = 1 ';
+							$sql .= 'AND pd.language_id = ' . (int)$this->config->get('config_language_id');
+							$sql .= ' AND p2s.store_id =  ' . (int)$this->config->get('config_store_id'); 
+							$sql .= ' ORDER BY p.sort_order ASC, LOWER(pd.name) ASC, LOWER(p.model) ASC';
+							$sql .= ' LIMIT 15';
+							$res = $this->db->query( $sql );
+							if( $res ) {
+								$data = ( isset($res->rows) ) ? $res->rows : $res->row;
+				
+								// For the seo url stuff
+								$basehref = 'product/product&keyword=' . $this->request->get['keyword'] . '&product_id=';
+								foreach( $data as $key => $values ) {
+									$data[$key] = array(
+										'name' => htmlspecialchars_decode($values['name'] . ' (' . $values['model'] . ')', ENT_QUOTES),
+										'href' => $this->url->link($basehref . $values['product_id'])
+									);
+								}
+							}
+						}
+					}
+					echo json_encode( $data );
+				}
+				
 }
 ?>
